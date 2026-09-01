@@ -2,512 +2,949 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>皇朝國際旅行社 | 客戶意見處理簽核系統</title>
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, 'Segoe UI', 'Noto Sans TC', sans-serif; }
-        body { background: #eef2f7; margin: 0; padding: 28px 20px; }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .card { background: #ffffff; border-radius: 32px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.12); overflow: hidden; margin-bottom: 32px; }
-        .card-header { background: linear-gradient(135deg, #1e3c72 0%, #2b4c7c 100%); color: white; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-        .card-header h2 { margin: 0; font-size: 1.5rem; font-weight: 600; }
-        .status-badge { background: #f5b042; color: #2c2e2f; padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; }
-        .card-body { padding: 28px 32px; }
-        .opinion-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; border: 1px solid #cfdee9; border-radius: 20px; overflow: hidden; }
-        .opinion-table td, .opinion-table th { border: 1px solid #d4e0ea; padding: 14px 16px; vertical-align: top; background-color: #fff; }
-        .opinion-table th { background: #f2f6fc; font-weight: 700; width: 150px; color: #1e4663; }
-        input, select, textarea { width: 100%; border: 1px solid #cbdae9; border-radius: 14px; padding: 10px 14px; font-size: 0.9rem; }
-        .editor-wrapper { margin: 6px 0 4px; border-radius: 16px; border: 1px solid #e2edf7; }
-        .ck-editor__editable_inline { min-height: 130px; max-height: 220px; }
-        .signature-block { margin-top: 20px; background: #fafdff; border-radius: 24px; border: 1px solid #e2edf7; padding: 18px 22px; }
-        .signature-area-flex { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 12px; }
-        .sign-item { flex: 1; min-width: 280px; background: #ffffff; border-radius: 20px; padding: 12px; border: 1px solid #e9edf2; }
-        canvas { display: block; background: white; border-radius: 16px; border: 1px solid #cfdee9; width: 100%; cursor: crosshair; }
-        .sign-buttons { display: flex; gap: 10px; margin: 12px 0 10px; flex-wrap: wrap; }
-        .btn-sm { background: #eef2fa; border: none; padding: 6px 14px; border-radius: 40px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
-        .btn-sm:hover { background: #dce5f0; }
-        .sign-preview { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #f8fafd; padding: 8px 12px; border-radius: 40px; margin-top: 8px; }
-        .preview-img { max-width: 100px; max-height: 45px; border: 1px solid #ddd; border-radius: 8px; }
-        .sign-upload-row { margin-top: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .sign-upload-row input[type="file"] { font-size: 0.7rem; width: auto; }
-        .btn-primary { background: #1e3c72; color: white; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; }
-        .btn-outline { background: white; border: 1px solid #1e3c72; color: #1e3c72; }
-        .btn-success { background: #2b6e4f; }
-        .btn-danger { background: #b91c1c; }
-        .doc-actions { display: flex; justify-content: flex-end; gap: 18px; margin-top: 28px; flex-wrap: wrap; }
-        .doc-item { background: #f8fafd; border-radius: 20px; padding: 14px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .record-list { max-height: 400px; overflow-y: auto; }
-        .pagination { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
-        .page-btn { background: #eef2fa; border: none; padding: 6px 14px; border-radius: 30px; cursor: pointer; }
-        .link-box { background: #eef2fa; padding: 6px 10px; border-radius: 20px; font-size: 0.7rem; word-break: break-all; max-width: 300px; }
-        .sync-status { background: #2b6e4f; color: white; padding: 6px 16px; border-radius: 40px; font-size: 0.8rem; }
-        @media (max-width: 700px) { .card-body { padding: 18px; } }
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+        }
+        body {
+            background: #eef2f7;
+            margin: 0;
+            padding: 28px 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2b4c7c 100%);
+            color: white;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .status-badge {
+            background: #f5b042;
+            color: #2c2e2f;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .card-body {
+            padding: 28px 32px;
+        }
+        .opinion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            border: 1px solid #cfdee9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .opinion-table td,
+        .opinion-table th {
+            border: 1px solid #d4e0ea;
+            padding: 14px 16px;
+            vertical-align: top;
+            background-color: #fff;
+        }
+        .opinion-table th {
+            background: #f2f6fc;
+            font-weight: 700;
+            width: 150px;
+            color: #1e4663;
+        }
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #cbdae9;
+            border-radius: 14px;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+        }
+        .editor-wrapper {
+            margin: 6px 0 4px;
+            border-radius: 16px;
+            border: 1px solid #e2edf7;
+        }
+        .ck-editor__editable_inline {
+            min-height: 130px;
+            max-height: 220px;
+        }
+        .signature-block {
+            margin-top: 20px;
+            background: #fafdff;
+            border-radius: 24px;
+            border: 1px solid #e2edf7;
+            padding: 18px 22px;
+        }
+        .signature-area-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 12px;
+        }
+        .sign-item {
+            flex: 1;
+            min-width: 280px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 12px;
+            border: 1px solid #e9edf2;
+        }
+        canvas {
+            display: block;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #cfdee9;
+            width: 100%;
+            cursor: crosshair;
+        }
+        .sign-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0 10px;
+            flex-wrap: wrap;
+        }
+        .btn-sm {
+            background: #eef2fa;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-sm:hover {
+            background: #dce5f0;
+        }
+        .sign-preview {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: #f8fafd;
+            padding: 8px 12px;
+            border-radius: 40px;
+            margin-top: 8px;
+        }
+        .preview-img {
+            max-width: 100px;
+            max-height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .sign-upload-row {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .sign-upload-row input[type="file"] {
+            font-size: 0.7rem;
+            width: auto;
+        }
+        .btn-primary {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: white;
+            border: 1px solid #1e3c72;
+            color: #1e3c72;
+        }
+        .btn-success {
+            background: #2b6e4f;
+        }
+        .btn-danger {
+            background: #b91c1c;
+        }
+        .doc-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+        .doc-item {
+            background: #f8fafd;
+            border-radius: 20px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .record-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .page-btn {
+            background: #eef2fa;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .link-box {
+            background: #eef2fa;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            word-break: break-all;
+            max-width: 300px;
+        }
+        .sync-status {
+            background: #2b6e4f;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 700px) {
+            .card-body {
+                padding: 18px;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-        <div class="sync-status" id="syncStatus">🟢 雲端連線中...</div>
-        <div style="font-size: 0.75rem;">📁 資料儲存於 Google 雲端試算表</div>
-    </div>
-
-    <div class="card" id="formCard">
-        <div class="card-header">
-            <h2>🏨 皇朝國際旅行社客戶意見處理表</h2>
-            <span class="status-badge" id="formStatusBadge">📝 編輯中 / 可暫存</span>
+    <div class="container">
+        <!-- 同步狀態列 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div class="sync-status" id="syncStatus">🟢 雲端連線中...</div>
+            <div style="font-size: 0.75rem;">📁 資料儲存於 Google 雲端試算表</div>
         </div>
-        <div class="card-body">
-            <table class="opinion-table">
-                <tr><th>所屬公司別</th><td colspan="3"><select id="agencySelect"><option value="皇朝國際旅行社">皇朝國際旅行社</option><option value="永欽旅行社">永欽旅行社</option></select></td></tr>
-                <tr><th>文件編號</th><td colspan="3"><input type="text" id="docId" placeholder="自動產生" readonly style="background:#f0f2f5;"> <button type="button" class="btn-sm" id="newDocBtn">新案件</button></td></tr>
-                <tr><th>團體名稱</th><td colspan="3"><input type="text" id="groupName" placeholder="請輸入團體名稱"></td></tr>
-                <tr><th>事件名稱</th><td colspan="3"><input type="text" id="eventName" placeholder="請輸入事件名稱"></td></tr>
-                <tr><th>發生日期</th><td><input type="date" id="occurDate"></td><th>發生地點</th><td><input type="text" id="occurPlace" placeholder="地點"></td></tr>
-                <tr><th>事發過程及處理</th><td colspan="3"><div id="processEditor" class="editor-wrapper"></div></td></tr>
-                <tr><th>建議改善事項</th><td colspan="3"><div id="improveEditor" class="editor-wrapper"></div></td></tr>
-                <tr><th>簽核欄位</th><td colspan="3"><div style="display:flex; gap:20px; flex-wrap:wrap;"><div><strong>專案OP：</strong><span id="opSignLabel">未簽</span></div><div><strong>業務：</strong><span id="salesSignLabel">未簽</span></div><div><strong>總經理：</strong><span id="gmSignLabel">未簽</span></div></div></td></tr>
-            </table>
 
-            <div class="signature-block">
-                <div class="signature-area-flex">
-                    <div class="sign-item"><h4>📌 專案OP簽名</h4><canvas id="opCanvas" width="300" height="120"></canvas><div class="sign-buttons"><button class="btn-sm" id="clearOpBtn">清除</button><button class="btn-sm" id="saveOpBtn">儲存簽名</button></div><div class="sign-upload-row"><input type="file" id="opUpload" accept="image/*"><button class="btn-sm" id="applyOpUpload">套用圖片</button></div><div id="opPreview" class="sign-preview"><span>簽章：</span><span id="opNoSignMsg">未簽名</span><img id="opImg" class="preview-img" style="display:none;"></div></div>
-                    <div class="sign-item"><h4>📌 業務簽名</h4><canvas id="salesCanvas" width="300" height="120"></canvas><div class="sign-buttons"><button class="btn-sm" id="clearSalesBtn">清除</button><button class="btn-sm" id="saveSalesBtn">儲存簽名</button></div><div class="sign-upload-row"><input type="file" id="salesUpload" accept="image/*"><button class="btn-sm" id="applySalesUpload">套用圖片</button></div><div id="salesPreview" class="sign-preview"><span>簽章：</span><span id="salesNoSignMsg">未簽名</span><img id="salesImg" class="preview-img" style="display:none;"></div></div>
-                    <div class="sign-item"><h4>📌 總經理簽名</h4><canvas id="gmCanvas" width="300" height="120"></canvas><div class="sign-buttons"><button class="btn-sm" id="clearGmBtn">清除</button><button class="btn-sm" id="saveGmBtn">儲存簽名</button></div><div class="sign-upload-row"><input type="file" id="gmUpload" accept="image/*"><button class="btn-sm" id="applyGmUpload">套用圖片</button></div><div id="gmPreview" class="sign-preview"><span>簽章：</span><span id="gmNoSignMsg">未簽名</span><img id="gmImg" class="preview-img" style="display:none;"></div></div>
+        <div class="card" id="formCard">
+            <div class="card-header">
+                <h2>🏨 皇朝國際旅行社客戶意見處理表</h2>
+                <span class="status-badge" id="formStatusBadge">📝 編輯中 / 可暫存</span>
+            </div>
+            <div class="card-body">
+                <table class="opinion-table">
+                    <tr>
+                        <th>所屬公司別</th>
+                        <td colspan="3">
+                            <select id="agencySelect">
+                                <option value="皇朝國際旅行社">皇朝國際旅行社</option>
+                                <option value="永欽旅行社">永欽旅行社</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>文件編號</th>
+                        <td colspan="3">
+                            <input type="text" id="docId" placeholder="自動產生" readonly style="background:#f0f2f5;">
+                            <button type="button" class="btn-sm" id="newDocBtn">新案件</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>團體名稱</th>
+                        <td colspan="3"><input type="text" id="groupName" placeholder="請輸入團體名稱"></td>
+                    </tr>
+                    <tr>
+                        <th>事件名稱</th>
+                        <td colspan="3"><input type="text" id="eventName" placeholder="請輸入事件名稱"></td>
+                    </tr>
+                    <tr>
+                        <th>發生日期</th>
+                        <td><input type="date" id="occurDate"></td>
+                        <th>發生地點</th>
+                        <td><input type="text" id="occurPlace" placeholder="地點"></td>
+                    </tr>
+                    <tr>
+                        <th>事發過程及處理</th>
+                        <td colspan="3">
+                            <div id="processEditor" class="editor-wrapper"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>建議改善事項</th>
+                        <td colspan="3">
+                            <div id="improveEditor" class="editor-wrapper"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>簽核欄位</th>
+                        <td colspan="3">
+                            <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                                <div><strong>專案OP：</strong><span id="opSignLabel">未簽</span></div>
+                                <div><strong>業務：</strong><span id="salesSignLabel">未簽</span></div>
+                                <div><strong>總經理：</strong><span id="gmSignLabel">未簽</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="signature-block">
+                    <div class="signature-area-flex">
+                        <div class="sign-item">
+                            <h4>📌 專案OP簽名</h4>
+                            <canvas id="opCanvas" width="300" height="120"></canvas>
+                            <div class="sign-buttons">
+                                <button class="btn-sm" id="clearOpBtn">清除</button>
+                                <button class="btn-sm" id="saveOpBtn">儲存簽名</button>
+                            </div>
+                            <div class="sign-upload-row">
+                                <input type="file" id="opUpload" accept="image/*">
+                                <button class="btn-sm" id="applyOpUpload">套用圖片</button>
+                            </div>
+                            <div id="opPreview" class="sign-preview">
+                                <span>簽章：</span><span id="opNoSignMsg">未簽名</span>
+                                <img id="opImg" class="preview-img" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="sign-item">
+                            <h4>📌 業務簽名</h4>
+                            <canvas id="salesCanvas" width="300" height="120"></canvas>
+                            <div class="sign-buttons">
+                                <button class="btn-sm" id="clearSalesBtn">清除</button>
+                                <button class="btn-sm" id="saveSalesBtn">儲存簽名</button>
+                            </div>
+                            <div class="sign-upload-row">
+                                <input type="file" id="salesUpload" accept="image/*">
+                                <button class="btn-sm" id="applySalesUpload">套用圖片</button>
+                            </div>
+                            <div id="salesPreview" class="sign-preview">
+                                <span>簽章：</span><span id="salesNoSignMsg">未簽名</span>
+                                <img id="salesImg" class="preview-img" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="sign-item">
+                            <h4>📌 總經理簽名</h4>
+                            <canvas id="gmCanvas" width="300" height="120"></canvas>
+                            <div class="sign-buttons">
+                                <button class="btn-sm" id="clearGmBtn">清除</button>
+                                <button class="btn-sm" id="saveGmBtn">儲存簽名</button>
+                            </div>
+                            <div class="sign-upload-row">
+                                <input type="file" id="gmUpload" accept="image/*">
+                                <button class="btn-sm" id="applyGmUpload">套用圖片</button>
+                            </div>
+                            <div id="gmPreview" class="sign-preview">
+                                <span>簽章：</span><span id="gmNoSignMsg">未簽名</span>
+                                <img id="gmImg" class="preview-img" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-actions">
+                    <button class="btn-outline btn-primary" id="draftSaveBtn">💾 暫存草稿</button>
+                    <button class="btn-primary" id="confirmSaveBtn">✅ 完成填寫 & 送出簽核(OP簽)</button>
                 </div>
             </div>
+        </div>
 
-            <div class="doc-actions">
-                <button class="btn-outline btn-primary" id="draftSaveBtn">💾 暫存草稿</button>
-                <button class="btn-primary" id="confirmSaveBtn">✅ 完成填寫 & 送出簽核(OP簽)</button>
+        <div class="card">
+            <div class="card-header" style="background: #6c757d;">
+                <h2>📦 暫存文件區 (草稿)</h2>
+            </div>
+            <div class="card-body">
+                <div id="draftListContainer" class="record-list">載入中...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="background: #3a6b4f;">
+                <h2>📋 簽核流程中的文件</h2>
+            </div>
+            <div class="card-body">
+                <div id="pendingListContainer" class="record-list">載入中...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="background: #2c553f;">
+                <h2>📚 歷史歸檔文件</h2>
+            </div>
+            <div class="card-body">
+                <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+                    <select id="historyYearFilter">
+                        <option value="all">所有年度</option>
+                    </select>
+                    <input type="text" id="historySearch" placeholder="搜尋團體/事件">
+                    <button class="btn-sm" id="searchHistoryBtn">🔍 搜尋</button>
+                    <button class="btn-sm" id="refreshHistoryBtn">⟳ 重整</button>
+                </div>
+                <div id="historyListContainer" class="record-list">載入中...</div>
+                <div id="historyPagination" class="pagination"></div>
             </div>
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header" style="background: #6c757d;"><h2>📦 暫存文件區 (草稿)</h2></div>
-        <div class="card-body"><div id="draftListContainer" class="record-list">載入中...</div></div>
-    </div>
+    <script>
+        // ================================================================
+        // 重要：請將下方網址替換為您部署的 Google Apps Script 網址
+        // ================================================================
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwiPKWCi0Dh7jpwbDnn4K_DSAbdB12G9_O83-xQBJ0-6ZGCzObtqZQSgGS0wJf9M05gDw/exec';
 
-    <div class="card">
-        <div class="card-header" style="background: #3a6b4f;"><h2>📋 簽核流程中的文件</h2></div>
-        <div class="card-body"><div id="pendingListContainer" class="record-list">載入中...</div></div>
-    </div>
+        // 如果尚未部署 GAS，請先完成部署步驟
 
-    <div class="card">
-        <div class="card-header" style="background: #2c553f;"><h2>📚 歷史歸檔文件</h2></div>
-        <div class="card-body">
-            <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
-                <select id="historyYearFilter"><option value="all">所有年度</option></select>
-                <input type="text" id="historySearch" placeholder="搜尋團體/事件">
-                <button class="btn-sm" id="searchHistoryBtn">🔍 搜尋</button>
-                <button class="btn-sm" id="refreshHistoryBtn">⟳ 重整</button>
-            </div>
-            <div id="historyListContainer" class="record-list">載入中...</div>
-            <div id="historyPagination" class="pagination"></div>
-        </div>
-    </div>
-</div>
+        let currentDocId = null;
+        let opSignature = null,
+            salesSignature = null,
+            gmSignature = null;
+        let opCtx, salesCtx, gmCtx;
+        const opCanvas = document.getElementById('opCanvas'),
+            salesCanvas = document.getElementById('salesCanvas'),
+            gmCanvas = document.getElementById('gmCanvas');
+        let processEditor, improveEditor;
+        let draftDocs = [],
+            pendingDocs = [],
+            archivedDocs = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 10;
 
-<script>
-    // ================================================================
-    // ⚠️ 請將下方網址替換為您部署的 Google Apps Script 網址
-    // ================================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbwiPKWCi0Dh7jpwbDnn4K_DSAbdB12G9_O83-xQBJ0-6ZGCzObtqZQSgGS0wJf9M05gDw/exec';
-    
-    // 如果尚未部署 GAS，請先完成部署步驟
-
-    let currentDocId = null;
-    let opSignature = null, salesSignature = null, gmSignature = null;
-    let opCtx, salesCtx, gmCtx;
-    const opCanvas = document.getElementById('opCanvas'), salesCanvas = document.getElementById('salesCanvas'), gmCanvas = document.getElementById('gmCanvas');
-    let processEditor, improveEditor;
-    let draftDocs = [], pendingDocs = [], archivedDocs = [];
-    let currentPage = 1;
-    const PAGE_SIZE = 10;
-
-    function escapeHtml(string) {
-        if(!string) return '';
-        return String(string).replace(/[&<>"'`=\/]/g, function (s) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;', '=': '&#x3D;', '`': '&#x60;' }[s];
-        });
-    }
-
-    // CKEditor 初始化
-    ClassicEditor.create(document.getElementById('processEditor'), {
-        language: 'zh',
-        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo']
-    })
-    .then(editor => { processEditor = editor; console.log('Process Editor 初始化成功'); })
-    .catch(err => { console.error('Process Editor 初始化失敗:', err); });
-
-    ClassicEditor.create(document.getElementById('improveEditor'), {
-        language: 'zh',
-        toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo']
-    })
-    .then(editor => { improveEditor = editor; console.log('Improve Editor 初始化成功'); })
-    .catch(err => { console.error('Improve Editor 初始化失敗:', err); });
-
-    // 初始化畫板
-    function initCanvas(canvas, ctx) {
-        canvas.width = 300; canvas.height = 120;
-        ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,canvas.width,canvas.height);
-        let drawing=false, lastX=0, lastY=0;
-        const getPos=(e)=>{
-            const rect=canvas.getBoundingClientRect();
-            const scaleX=canvas.width/rect.width, scaleY=canvas.height/rect.height;
-            let cx,cy;
-            if(e.touches && e.touches.length > 0){ cx=e.touches[0].clientX; cy=e.touches[0].clientY; }
-            else{ cx=e.clientX; cy=e.clientY; }
-            return {x:Math.min(Math.max(0,(cx-rect.left)*scaleX),canvas.width), y:Math.min(Math.max(0,(cy-rect.top)*scaleY),canvas.height)};
-        };
-        const start=(e)=>{ drawing=true; const {x,y}=getPos(e); lastX=x; lastY=y; ctx.beginPath(); ctx.moveTo(x,y); };
-        const draw=(e)=>{ if(!drawing) return; if(e.touches) e.preventDefault(); const {x,y}=getPos(e); ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(x,y); ctx.strokeStyle='#1e293b'; ctx.lineWidth=2; ctx.stroke(); lastX=x; lastY=y; };
-        const end=()=>{ drawing=false; };
-        canvas.addEventListener('mousedown',start); canvas.addEventListener('mousemove',draw); canvas.addEventListener('mouseup',end); canvas.addEventListener('mouseleave',end);
-        canvas.addEventListener('touchstart',start, {passive: false}); canvas.addEventListener('touchmove',draw, {passive: false}); canvas.addEventListener('touchend',end);
-    }
-    opCtx = opCanvas.getContext('2d'); salesCtx = salesCanvas.getContext('2d'); gmCtx = gmCanvas.getContext('2d');
-    initCanvas(opCanvas, opCtx); initCanvas(salesCanvas, salesCtx); initCanvas(gmCanvas, gmCtx);
-
-    function updatePreview(role, data) {
-        if(role==='op'){ const img=document.getElementById('opImg'); if(data){ img.src=data; img.style.display='inline-block'; document.getElementById('opNoSignMsg').style.display='none'; opSignature=data; document.getElementById('opSignLabel').innerHTML='✓ 已簽';} else{ img.style.display='none'; document.getElementById('opNoSignMsg').style.display='inline'; opSignature=null; document.getElementById('opSignLabel').innerHTML='未簽';} }
-        if(role==='sales'){ const img=document.getElementById('salesImg'); if(data){ img.src=data; img.style.display='inline-block'; document.getElementById('salesNoSignMsg').style.display='none'; salesSignature=data; document.getElementById('salesSignLabel').innerHTML='✓ 已簽';} else{ img.style.display='none'; document.getElementById('salesNoSignMsg').style.display='inline'; salesSignature=null; document.getElementById('salesSignLabel').innerHTML='未簽';} }
-        if(role==='gm'){ const img=document.getElementById('gmImg'); if(data){ img.src=data; img.style.display='inline-block'; document.getElementById('gmNoSignMsg').style.display='none'; gmSignature=data; document.getElementById('gmSignLabel').innerHTML='✓ 已簽';} else{ img.style.display='none'; document.getElementById('gmNoSignMsg').style.display='inline'; gmSignature=null; document.getElementById('gmSignLabel').innerHTML='未簽';} }
-    }
-    function saveDraw(role, canvas, ctx) { const data = canvas.toDataURL(); updatePreview(role, data); }
-    function clearCanvasRole(role, canvas, ctx) { ctx.fillStyle='#FFF'; ctx.fillRect(0,0,canvas.width,canvas.height); updatePreview(role, null); }
-    function handleFileUpload(fileInput, canvas, ctx, role) {
-        const file = fileInput.files[0]; if(!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-                ctx.fillStyle='#FFF'; ctx.fillRect(0,0,canvas.width,canvas.height);
-                const scale = Math.min(canvas.width/img.width, canvas.height/img.height);
-                const w = img.width*scale, h = img.height*scale;
-                ctx.drawImage(img, (canvas.width-w)/2, (canvas.height-h)/2, w, h);
-                updatePreview(role, canvas.toDataURL()); fileInput.value = '';
-            };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-    document.getElementById('saveOpBtn').onclick = () => saveDraw('op', opCanvas, opCtx);
-    document.getElementById('saveSalesBtn').onclick = () => saveDraw('sales', salesCanvas, salesCtx);
-    document.getElementById('saveGmBtn').onclick = () => saveDraw('gm', gmCanvas, gmCtx);
-    document.getElementById('clearOpBtn').onclick = () => clearCanvasRole('op', opCanvas, opCtx);
-    document.getElementById('clearSalesBtn').onclick = () => clearCanvasRole('sales', salesCanvas, salesCtx);
-    document.getElementById('clearGmBtn').onclick = () => clearCanvasRole('gm', gmCanvas, gmCtx);
-    document.getElementById('applyOpUpload').onclick = () => document.getElementById('opUpload').click();
-    document.getElementById('applySalesUpload').onclick = () => document.getElementById('salesUpload').click();
-    document.getElementById('applyGmUpload').onclick = () => document.getElementById('gmUpload').click();
-    document.getElementById('opUpload').addEventListener('change', (e) => handleFileUpload(e.target, opCanvas, opCtx, 'op'));
-    document.getElementById('salesUpload').addEventListener('change', (e) => handleFileUpload(e.target, salesCanvas, salesCtx, 'sales'));
-    document.getElementById('gmUpload').addEventListener('change', (e) => handleFileUpload(e.target, gmCanvas, gmCtx, 'gm'));
-
-    // ================================================================
-    // API 呼叫 (使用 fetch)
-    // ================================================================
-    async function callAPI(payload) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        function escapeHtml(string) {
+            if (!string) return '';
+            return String(string).replace(/[&<>"'`=\/]/g, function(s) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;', '=': '&#x3D;',
+                    '`': '&#x60;' } [s];
             });
-            if (!response.ok) {
-                throw new Error('HTTP ' + response.status);
-            }
-            const result = await response.json();
-            return result;
-        } catch (error) {
-            console.error("API Error:", error);
-            document.getElementById('syncStatus').innerHTML = '🔴 雲端連線失敗';
-            document.getElementById('syncStatus').style.background = '#b91c1c';
-            alert("雲端連線失敗，請檢查：\n1. 網路連線\n2. GAS 是否已部署\n3. API_URL 是否正確\n\n錯誤訊息：" + error.message);
-            return { success: false, error: error.message };
         }
-    }
 
-    async function loadAllData() {
-        document.getElementById('syncStatus').innerHTML = '🔄 同步中...';
-        const res = await callAPI({ action: "readAll" });
-        if(res.success && res.data) {
-            draftDocs = res.data.draft || [];
-            pendingDocs = res.data.pending || [];
-            archivedDocs = res.data.archived || [];
-            document.getElementById('syncStatus').innerHTML = '🟢 已同步 ' + new Date().toLocaleTimeString();
-            document.getElementById('syncStatus').style.background = '#2b6e4f';
-            renderDraftList(); renderPendingList(); renderHistoryList(); updateYearFilter();
-            handleUrlParams();
-        } else {
-            document.getElementById('syncStatus').innerHTML = '🔴 同步失敗，請檢查設定';
-            document.getElementById('syncStatus').style.background = '#b91c1c';
-        }
-    }
+        // ================================================================
+        // CKEditor 初始化
+        // ================================================================
+        ClassicEditor.create(document.getElementById('processEditor'), {
+            language: 'zh',
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo']
+        }).then(editor => { processEditor = editor;
+            console.log('Process Editor 初始化成功'); }).catch(err => { console.error('Process Editor 初始化失敗:',
+            err); });
 
-    function collectFormData(status = 'draft') {
-        return {
-            id: String(currentDocId || ('DOC-'+Date.now())),
-            agency: document.getElementById('agencySelect').value,
-            groupName: document.getElementById('groupName').value,
-            eventName: document.getElementById('eventName').value,
-            occurDate: document.getElementById('occurDate').value,
-            occurPlace: document.getElementById('occurPlace').value,
-            processHTML: processEditor?.getData() || '',
-            improveHTML: improveEditor?.getData() || '',
-            opSign: opSignature || '',
-            salesSign: salesSignature || '',
-            gmSign: gmSignature || '',
-            createTime: new Date().toISOString(),
-            status: status,
-            archiveDate: '',
-            year: document.getElementById('occurDate').value ? document.getElementById('occurDate').value.slice(0,4) : new Date().getFullYear().toString()
-        };
-    }
+        ClassicEditor.create(document.getElementById('improveEditor'), {
+            language: 'zh',
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo']
+        }).then(editor => { improveEditor = editor;
+            console.log('Improve Editor 初始化成功'); }).catch(err => { console.error('Improve Editor 初始化失敗:',
+            err); });
 
-    function loadFormData(doc) {
-        if(!doc) return;
-        document.getElementById('groupName').value = doc.groupName || '';
-        document.getElementById('eventName').value = doc.eventName || '';
-        document.getElementById('occurDate').value = doc.occurDate || '';
-        document.getElementById('occurPlace').value = doc.occurPlace || '';
-        document.getElementById('agencySelect').value = doc.agency || '皇朝國際旅行社';
-        
-        if (processEditor) { processEditor.setData(doc.processHTML || ''); }
-        if (improveEditor) { improveEditor.setData(doc.improveHTML || ''); }
-
-        if(doc.opSign && doc.opSign !== 'null') { updatePreview('op', doc.opSign); } else clearCanvasRole('op', opCanvas, opCtx);
-        if(doc.salesSign && doc.salesSign !== 'null') { updatePreview('sales', doc.salesSign); } else clearCanvasRole('sales', salesCanvas, salesCtx);
-        if(doc.gmSign && doc.gmSign !== 'null') { updatePreview('gm', doc.gmSign); } else clearCanvasRole('gm', gmCanvas, gmCtx);
-        
-        currentDocId = String(doc.id); 
-        document.getElementById('docId').value = currentDocId;
-    }
-
-    function resetForm() {
-        document.getElementById('groupName').value = ''; 
-        document.getElementById('eventName').value = ''; 
-        document.getElementById('occurDate').value = ''; 
-        document.getElementById('occurPlace').value = '';
-        processEditor?.setData(''); 
-        improveEditor?.setData('');
-        clearCanvasRole('op', opCanvas, opCtx); 
-        clearCanvasRole('sales', salesCanvas, salesCtx); 
-        clearCanvasRole('gm', gmCanvas, gmCtx);
-        currentDocId = null; 
-        document.getElementById('docId').value = '';
-        const existingBtn = document.getElementById('dynamicSignBtn'); 
-        if(existingBtn) existingBtn.remove();
-    }
-
-    // 暫存草稿
-    document.getElementById('draftSaveBtn').onclick = async () => {
-        if(!currentDocId) { currentDocId = 'DOC-'+Date.now(); document.getElementById('docId').value = currentDocId; }
-        const formData = collectFormData('draft');
-        const res = await callAPI({ action: "save", sheetName: "draft", data: formData });
-        if(res.success) {
-            alert('草稿已成功儲存至雲端區');
-            await loadAllData();
-            resetForm();
-            currentDocId = 'DOC-'+Date.now();
-            document.getElementById('docId').value = currentDocId;
-        } else {
-            alert('儲存失敗：' + (res.error || '請檢查網路連線'));
-        }
-    };
-
-    // 完成送出簽核
-    document.getElementById('confirmSaveBtn').onclick = async () => {
-        if(!document.getElementById('groupName').value.trim()) return alert('請填寫團體名稱');
-        if(!opSignature) return alert('專案OP必須先完成簽名');
-        
-        if(!currentDocId) { currentDocId = 'DOC-'+Date.now(); document.getElementById('docId').value = currentDocId; }
-        const newDoc = collectFormData('op_pending'); 
-        newDoc.status = 'op_pending'; 
-
-        await callAPI({ action: "delete", sheetName: "draft", id: newDoc.id });
-        const res = await callAPI({ action: "save", sheetName: "pending", data: newDoc });
-        
-        if(res.success) {
-            alert('文件已送出雲端，待業務簽核');
-            resetForm();
-            currentDocId = 'DOC-'+Date.now();
-            document.getElementById('docId').value = currentDocId;
-            await loadAllData();
-        } else {
-            alert('送出失敗：' + (res.error || '請檢查網路連線'));
-        }
-    };
-
-    document.getElementById('newDocBtn').onclick = () => { 
-        resetForm(); 
-        currentDocId = 'DOC-'+Date.now(); 
-        document.getElementById('docId').value = currentDocId; 
-    };
-
-    function renderDraftList() {
-        const container = document.getElementById('draftListContainer');
-        if(!draftDocs.length) { container.innerHTML='<div style="padding:20px;text-align:center;">📭 雲端尚無暫存草稿</div>'; return; }
-        container.innerHTML = draftDocs.map(doc => `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName||'未填')}</strong> - ${escapeHtml(doc.eventName||'未填')}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate||'未填'}</span></div><div><button class="btn-sm edit-draft" data-id="${doc.id}">✏️ 繼續編輯</button> <button class="btn-sm delete-draft" data-id="${doc.id}">🗑️ 刪除</button></div></div>`).join('');
-        
-        document.querySelectorAll('.edit-draft').forEach(btn => btn.addEventListener('click', () => { 
-            const doc = draftDocs.find(d => String(d.id) === String(btn.dataset.id)); 
-            if(doc) {
-                loadFormData(doc);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }));
-        
-        document.querySelectorAll('.delete-draft').forEach(btn => btn.addEventListener('click', async () => { 
-            if(confirm('確定要從雲端刪除此草稿？')){ 
-                const res = await callAPI({ action: "delete", sheetName: "draft", id: btn.dataset.id });
-                if(res.success) await loadAllData();
-            } 
-        }));
-    }
-
-    function getSignLink(docId, role) { return `${window.location.href.split('?')[0]}?sign=${docId}&role=${role}`; }
-
-    function renderPendingList() {
-        const container = document.getElementById('pendingListContainer');
-        if(!pendingDocs.length) { container.innerHTML='<div style="padding:20px;text-align:center;">📭 雲端尚無簽核中文件</div>'; return; }
-        container.innerHTML = pendingDocs.map(doc => {
-            let statusText = '', linkUrl = '';
-            if(doc.status === 'op_pending') { statusText = '⏳ 待業務簽核'; linkUrl = getSignLink(doc.id, 'sales'); }
-            else if(doc.status === 'sales_pending') { statusText = '⏳ 待總經理簽核'; linkUrl = getSignLink(doc.id, 'gm'); }
-            return `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate} | ${statusText}</span></div><div style="display:flex; gap:8px; flex-wrap:wrap;">${linkUrl ? `<div class="link-box">🔗 <span style="font-size:0.7rem;">${linkUrl}</span> <button class="btn-sm copy-link" data-link="${linkUrl}">複製連結</button></div>` : ''}<button class="btn-sm edit-pending" data-id="${doc.id}">✏️ 進入簽核</button></div></div>`;
-        }).join('');
-        
-        document.querySelectorAll('.copy-link').forEach(btn => btn.addEventListener('click', () => { navigator.clipboard.writeText(btn.dataset.link); alert('連結已複製，可直接傳送 LINE'); }));
-        document.querySelectorAll('.edit-pending').forEach(btn => btn.addEventListener('click', () => { 
-            const doc = pendingDocs.find(d => String(d.id) === String(btn.dataset.id)); 
-            if(doc) openForSign(doc); 
-        }));
-    }
-
-    function openForSign(doc) {
-        loadFormData(doc);
-        const existingBtn = document.getElementById('dynamicSignBtn'); 
-        if(existingBtn) existingBtn.remove();
-        const btn = document.createElement('button'); 
-        btn.id = 'dynamicSignBtn'; 
-        btn.className = 'btn-primary'; 
-        btn.style.marginLeft = 'auto';
-        btn.style.marginTop = '16px';
-        btn.style.width = '100%';
-        
-        if(doc.status === 'op_pending') {
-            btn.innerText = '✅ 業務簽核完成 (送總經理)';
-            btn.onclick = async () => { 
-                if(!salesSignature) return alert('請業務先完成簽名並點選儲存簽名'); 
-                doc.salesSign = salesSignature; 
-                doc.status = 'sales_pending'; 
-                const res = await callAPI({ action: "save", sheetName: "pending", data: doc });
-                if(res.success) { 
-                    alert('業務簽核完成'); 
-                    resetForm(); 
-                    await loadAllData();
-                }
+        // ================================================================
+        // 簽名板初始化
+        // ================================================================
+        function initCanvas(canvas, ctx) {
+            canvas.width = 300;
+            canvas.height = 120;
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            let drawing = false,
+                lastX = 0,
+                lastY = 0;
+            const getPos = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width,
+                    scaleY = canvas.height / rect.height;
+                let cx, cy;
+                if (e.touches && e.touches.length > 0) { cx = e.touches[0].clientX;
+                    cy = e.touches[0].clientY; } else { cx = e.clientX;
+                    cy = e.clientY; }
+                return { x: Math.min(Math.max(0, (cx - rect.left) * scaleX), canvas.width), y: Math.min(Math.max(0, (
+                    cy - rect.top) * scaleY), canvas.height) };
             };
-        } else if(doc.status === 'sales_pending') {
-            btn.innerText = '✅ 總經理簽核完成 (結案歸檔)';
-            btn.onclick = async () => { 
-                if(!gmSignature) return alert('請總經理先完成簽名並點選儲存簽名'); 
-                doc.gmSign = gmSignature; 
-                doc.status = 'completed'; 
-                doc.archiveDate = new Date().toISOString();
-                doc.year = doc.occurDate ? doc.occurDate.slice(0,4) : new Date().getFullYear().toString();
-                await callAPI({ action: "delete", sheetName: "pending", id: doc.id });
-                const res = await callAPI({ action: "save", sheetName: "archived", data: doc });
-                if(res.success) { 
-                    alert('總經理簽核完成，文件已歸檔'); 
-                    resetForm(); 
-                    await loadAllData();
-                }
-            };
-        } else return;
-        
-        document.querySelector('.doc-actions').appendChild(btn);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+            const start = (e) => { drawing = true;
+                const { x, y } = getPos(e);
+                lastX = x;
+                lastY = y;
+                ctx.beginPath();
+                ctx.moveTo(x, y); };
+            const draw = (e) => { if (!drawing) return; if (e.touches) e.preventDefault();
+                const { x, y } = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                lastX = x;
+                lastY = y; };
+            const end = () => { drawing = false; };
+            canvas.addEventListener('mousedown', start);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', end);
+            canvas.addEventListener('mouseleave', end);
+            canvas.addEventListener('touchstart', start, { passive: false });
+            canvas.addEventListener('touchmove', draw, { passive: false });
+            canvas.addEventListener('touchend', end);
+        }
+        opCtx = opCanvas.getContext('2d');
+        salesCtx = salesCanvas.getContext('2d');
+        gmCtx = gmCanvas.getContext('2d');
+        initCanvas(opCanvas, opCtx);
+        initCanvas(salesCanvas, salesCtx);
+        initCanvas(gmCanvas, gmCtx);
 
-    function handleUrlParams() {
-        const params = new URLSearchParams(window.location.search);
-        if(params.has('sign') && params.has('role')) {
-            const docId = params.get('sign');
-            const doc = pendingDocs.find(d => String(d.id) === String(docId));
-            if(doc) {
-                openForSign(doc);
-                window.history.replaceState({}, document.title, window.location.pathname);
+        function updatePreview(role, data) {
+            if (role === 'op') { const img = document.getElementById('opImg'); if (data) { img.src = data;
+                    img.style.display = 'inline-block';
+                    document.getElementById('opNoSignMsg').style.display = 'none';
+                    opSignature = data;
+                    document.getElementById('opSignLabel').innerHTML = '✓ 已簽'; } else { img.style.display = 'none';
+                    document.getElementById('opNoSignMsg').style.display = 'inline';
+                    opSignature = null;
+                    document.getElementById('opSignLabel').innerHTML = '未簽'; } }
+            if (role === 'sales') { const img = document.getElementById('salesImg'); if (data) { img.src = data;
+                    img.style.display = 'inline-block';
+                    document.getElementById('salesNoSignMsg').style.display = 'none';
+                    salesSignature = data;
+                    document.getElementById('salesSignLabel').innerHTML = '✓ 已簽'; } else { img.style.display =
+                'none';
+                    document.getElementById('salesNoSignMsg').style.display = 'inline';
+                    salesSignature = null;
+                    document.getElementById('salesSignLabel').innerHTML = '未簽'; } }
+            if (role === 'gm') { const img = document.getElementById('gmImg'); if (data) { img.src = data;
+                    img.style.display = 'inline-block';
+                    document.getElementById('gmNoSignMsg').style.display = 'none';
+                    gmSignature = data;
+                    document.getElementById('gmSignLabel').innerHTML = '✓ 已簽'; } else { img.style.display = 'none';
+                    document.getElementById('gmNoSignMsg').style.display = 'inline';
+                    gmSignature = null;
+                    document.getElementById('gmSignLabel').innerHTML = '未簽'; } }
+        }
+
+        function saveDraw(role, canvas, ctx) { const data = canvas.toDataURL();
+            updatePreview(role, data); }
+
+        function clearCanvasRole(role, canvas, ctx) { ctx.fillStyle = '#FFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            updatePreview(role, null); }
+
+        function handleFileUpload(fileInput, canvas, ctx, role) {
+            const file = fileInput.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.fillStyle = '#FFF';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+                    const w = img.width * scale,
+                        h = img.height * scale;
+                    ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+                    updatePreview(role, canvas.toDataURL());
+                    fileInput.value = '';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        document.getElementById('saveOpBtn').onclick = () => saveDraw('op', opCanvas, opCtx);
+        document.getElementById('saveSalesBtn').onclick = () => saveDraw('sales', salesCanvas, salesCtx);
+        document.getElementById('saveGmBtn').onclick = () => saveDraw('gm', gmCanvas, gmCtx);
+        document.getElementById('clearOpBtn').onclick = () => clearCanvasRole('op', opCanvas, opCtx);
+        document.getElementById('clearSalesBtn').onclick = () => clearCanvasRole('sales', salesCanvas, salesCtx);
+        document.getElementById('clearGmBtn').onclick = () => clearCanvasRole('gm', gmCanvas, gmCtx);
+        document.getElementById('applyOpUpload').onclick = () => document.getElementById('opUpload').click();
+        document.getElementById('applySalesUpload').onclick = () => document.getElementById('salesUpload').click();
+        document.getElementById('applyGmUpload').onclick = () => document.getElementById('gmUpload').click();
+        document.getElementById('opUpload').addEventListener('change', (e) => handleFileUpload(e.target, opCanvas,
+        opCtx, 'op'));
+        document.getElementById('salesUpload').addEventListener('change', (e) => handleFileUpload(e.target, salesCanvas,
+            salesCtx, 'sales'));
+        document.getElementById('gmUpload').addEventListener('change', (e) => handleFileUpload(e.target, gmCanvas,
+        gmCtx, 'gm'));
+
+        // ================================================================
+        // API 呼叫
+        // ================================================================
+        async function callAPI(payload) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error("API Error:", error);
+                document.getElementById('syncStatus').innerHTML = '🔴 雲端連線失敗';
+                document.getElementById('syncStatus').style.background = '#b91c1c';
+                alert("雲端連線失敗，請檢查：\n1. 網路連線\n2. GAS 是否已部署\n3. API_URL 是否正確\n\n錯誤訊息：" + error
+                    .message);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ================================================================
+        // 資料載入與儲存
+        // ================================================================
+        async function loadAllData() {
+            document.getElementById('syncStatus').innerHTML = '🔄 同步中...';
+            const res = await callAPI({ action: "readAll" });
+            if (res.success && res.data) {
+                draftDocs = res.data.draft || [];
+                pendingDocs = res.data.pending || [];
+                archivedDocs = res.data.archived || [];
+                document.getElementById('syncStatus').innerHTML = '🟢 已同步 ' + new Date().toLocaleTimeString();
+                document.getElementById('syncStatus').style.background = '#2b6e4f';
+                renderDraftList();
+                renderPendingList();
+                renderHistoryList();
+                updateYearFilter();
+                handleUrlParams();
             } else {
-                alert('該簽核連結已失效或文件已完成簽核');
-                window.history.replaceState({}, document.title, window.location.pathname);
+                document.getElementById('syncStatus').innerHTML = '🔴 同步失敗，請檢查設定';
+                document.getElementById('syncStatus').style.background = '#b91c1c';
             }
         }
-    }
 
-    function updateYearFilter() {
-        const select = document.getElementById('historyYearFilter');
-        const years = [...new Set(archivedDocs.map(d => d.year || new Date().getFullYear().toString()))];
-        select.innerHTML = '<option value="all">所有年度</option>' + years.map(y => `<option value="${y}">${y}年</option>`).join('');
-    }
+        function collectFormData(status = 'draft') {
+            return {
+                id: String(currentDocId || ('DOC-' + Date.now())),
+                agency: document.getElementById('agencySelect').value,
+                groupName: document.getElementById('groupName').value,
+                eventName: document.getElementById('eventName').value,
+                occurDate: document.getElementById('occurDate').value,
+                occurPlace: document.getElementById('occurPlace').value,
+                processHTML: processEditor?.getData() || '',
+                improveHTML: improveEditor?.getData() || '',
+                opSign: opSignature || '',
+                salesSign: salesSignature || '',
+                gmSign: gmSignature || '',
+                createTime: new Date().toISOString(),
+                status: status,
+                archiveDate: '',
+                year: document.getElementById('occurDate').value ? document.getElementById('occurDate').value.slice(0,
+                    4) : new Date().getFullYear().toString()
+            };
+        }
 
-    function renderHistoryList() {
-        let year = document.getElementById('historyYearFilter').value;
-        let kw = document.getElementById('historySearch').value.trim().toLowerCase();
-        let filtered = archivedDocs.filter(d => (year==='all' || String(d.year)===String(year)) && (!kw || String(d.groupName).toLowerCase().includes(kw) || String(d.eventName).toLowerCase().includes(kw)));
-        
-        const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
-        if(currentPage > totalPages) currentPage = totalPages;
-        const paged = filtered.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
-        const container = document.getElementById('historyListContainer');
-        
-        if(!paged.length) { container.innerHTML='<div style="padding:30px;text-align:center;">📭 無符合的歸檔資料</div>'; document.getElementById('historyPagination').innerHTML=''; return; }
-        
-        container.innerHTML = paged.map(doc => `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 發生:${doc.occurDate} | 歸檔:${String(doc.archiveDate).slice(0,10)}</span></div><div style="display:flex; gap:8px;"><button class="btn-sm viewArchive" data-id="${doc.id}">📄 檢視/列印</button><button class="btn-sm delete-archive" data-id="${doc.id}" style="background:#b91c1c; color:white;">🗑️ 刪除</button></div></div>`).join('');
-        
-        document.getElementById('historyPagination').innerHTML = `<button class="page-btn" id="prevHistoryBtn" ${currentPage===1?'disabled':''}>◀ 上一頁</button><span>第 ${currentPage} / ${totalPages} 頁</span><button class="page-btn" id="nextHistoryBtn" ${currentPage===totalPages?'disabled':''}>下一頁 ▶</button>`;
-        
-        document.getElementById('prevHistoryBtn')?.addEventListener('click',()=>{ if(currentPage>1){ currentPage--; renderHistoryList(); } });
-        document.getElementById('nextHistoryBtn')?.addEventListener('click',()=>{ if(currentPage<totalPages){ currentPage++; renderHistoryList(); } });
-        
-        document.querySelectorAll('.viewArchive').forEach(btn => btn.addEventListener('click', () => { 
-            const doc = archivedDocs.find(d => String(d.id) === String(btn.dataset.id)); 
-            if(doc) printArchive(doc); 
-        }));
-        
-        document.querySelectorAll('.delete-archive').forEach(btn => btn.addEventListener('click', async () => { 
-            if(confirm('確定要從雲端永久刪除這筆歸檔歷史文件？')){ 
-                const res = await callAPI({ action: "delete", sheetName: "archived", id: btn.dataset.id });
-                if(res.success) await loadAllData();
-            } 
-        }));
-    }
+        function loadFormData(doc) {
+            if (!doc) return;
+            document.getElementById('groupName').value = doc.groupName || '';
+            document.getElementById('eventName').value = doc.eventName || '';
+            document.getElementById('occurDate').value = doc.occurDate || '';
+            document.getElementById('occurPlace').value = doc.occurPlace || '';
+            document.getElementById('agencySelect').value = doc.agency || '皇朝國際旅行社';
 
-    function printArchive(doc) {
-        const win = window.open('', '_blank');
-        const opImgHtml = doc.opSign && doc.opSign !== 'null' ? `<img src="${doc.opSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` : '<span style="color:#999;">未簽署</span>';
-        const salesImgHtml = doc.salesSign && doc.salesSign !== 'null' ? `<img src="${doc.salesSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` : '<span style="color:#999;">未簽署</span>';
-        const gmImgHtml = doc.gmSign && doc.gmSign !== 'null' ? `<img src="${doc.gmSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` : '<span style="color:#999;">未簽署</span>';
-        
-        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>皇朝國際旅行社 - 客戶意見表</title><style>*{box-sizing:border-box;}body{font-family:'Noto Sans TC',sans-serif;padding:30px;line-height:1.5;}.print-wrapper{max-width:800px;margin:0 auto;}h1{text-align:center;color:#1e3c72;margin-bottom:5px;}p.sub{text-align:center;margin-top:0;color:#666;font-size:14px;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{border:1px solid #666;padding:12px;text-align:left;vertical-align:top;}th{background:#f2f2f2;width:150px;}.sign-row{display:flex;justify-content:space-between;margin-top:30px;gap:20px;}.sign-box{flex:1;border:1px solid #999;border-radius:10px;padding:15px;text-align:center;}@media print{.no-print{display:none;}}</style></head><body><div class="print-wrapper"><h1>🏨 皇朝國際旅行社</h1><p class="sub">客戶意見處理表（雲端歸檔文件）</p><table><th>文件編號</th><td colspan="3">${escapeHtml(doc.id)}</td></tr><tr><th>團體名稱</th><td colspan="3">${escapeHtml(doc.groupName)}</td></tr><tr><th>事件名稱</th><td colspan="3">${escapeHtml(doc.eventName)}</td></tr><tr><th>發生日期</th><td>${escapeHtml(doc.occurDate)}</td><th>發生地點</th><td>${escapeHtml(doc.occurPlace)}</td></tr><tr><th>事發過程及處理</th><td colspan="3">${doc.processHTML || '無'}</td></tr><tr><th>建議改善事項</th><td colspan="3">${doc.improveHTML || '無'}</td></tr></table><div class="sign-row"><div class="sign-box"><h4>專案OP簽章</h4>${opImgHtml}</div><div class="sign-box"><h4>業務簽章</h4>${salesImgHtml}</div><div class="sign-box"><h4>總經理簽章</h4>${gmImgHtml}</div></div><p style="font-size:12px;color:#888;margin-top:40px;text-align:center;">文件安全碼: ${doc.id} | 歸檔日期: ${String(doc.archiveDate).slice(0,10)}</p><div class="no-print" style="text-align:center;margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px;background:#1e3c72;color:white;border:none;border-radius:5px;cursor:pointer;">🖨️ 開始列印</button></div></div></body></html>`);
-        win.document.close();
-    }
+            if (processEditor) { processEditor.setData(doc.processHTML || ''); }
+            if (improveEditor) { improveEditor.setData(doc.improveHTML || ''); }
 
-    document.getElementById('searchHistoryBtn').onclick = () => { currentPage = 1; renderHistoryList(); };
-    document.getElementById('refreshHistoryBtn').onclick = () => { loadAllData(); };
-    document.getElementById('historyYearFilter').onchange = () => { currentPage = 1; renderHistoryList(); };
-    document.getElementById('historySearch').oninput = () => { currentPage = 1; renderHistoryList(); };
+            if (doc.opSign && doc.opSign !== 'null') { updatePreview('op', doc.opSign); } else clearCanvasRole('op',
+                opCanvas, opCtx);
+            if (doc.salesSign && doc.salesSign !== 'null') { updatePreview('sales', doc.salesSign); } else
+                clearCanvasRole('sales', salesCanvas, salesCtx);
+            if (doc.gmSign && doc.gmSign !== 'null') { updatePreview('gm', doc.gmSign); } else clearCanvasRole('gm',
+                gmCanvas, gmCtx);
 
-    // 設定新案件編號
-    currentDocId = 'DOC-'+Date.now();
-    document.getElementById('docId').value = currentDocId;
-    
-    // 網頁開啟時，自動與雲端同步資料
-    window.onload = () => { loadAllData(); };
-</script>
+            currentDocId = String(doc.id);
+            document.getElementById('docId').value = currentDocId;
+        }
+
+        function resetForm() {
+            document.getElementById('groupName').value = '';
+            document.getElementById('eventName').value = '';
+            document.getElementById('occurDate').value = '';
+            document.getElementById('occurPlace').value = '';
+            processEditor?.setData('');
+            improveEditor?.setData('');
+            clearCanvasRole('op', opCanvas, opCtx);
+            clearCanvasRole('sales', salesCanvas, salesCtx);
+            clearCanvasRole('gm', gmCanvas, gmCtx);
+            currentDocId = null;
+            document.getElementById('docId').value = '';
+            const existingBtn = document.getElementById('dynamicSignBtn');
+            if (existingBtn) existingBtn.remove();
+        }
+
+        // ----- 暫存草稿 -----
+        document.getElementById('draftSaveBtn').onclick = async () => {
+            if (!currentDocId) { currentDocId = 'DOC-' + Date.now();
+                document.getElementById('docId').value = currentDocId; }
+            const formData = collectFormData('draft');
+            const res = await callAPI({ action: "save", sheetName: "draft", data: formData });
+            if (res.success) {
+                alert('草稿已成功儲存至雲端區');
+                await loadAllData();
+                resetForm();
+                currentDocId = 'DOC-' + Date.now();
+                document.getElementById('docId').value = currentDocId;
+            } else {
+                alert('儲存失敗：' + (res.error || '請檢查網路連線'));
+            }
+        };
+
+        // ----- 送出簽核 (OP簽) -----
+        document.getElementById('confirmSaveBtn').onclick = async () => {
+            if (!document.getElementById('groupName').value.trim()) return alert('請填寫團體名稱');
+            if (!opSignature) return alert('專案OP必須先完成簽名');
+
+            if (!currentDocId) { currentDocId = 'DOC-' + Date.now();
+                document.getElementById('docId').value = currentDocId; }
+            const newDoc = collectFormData('op_pending');
+            newDoc.status = 'op_pending';
+
+            await callAPI({ action: "delete", sheetName: "draft", id: newDoc.id });
+            const res = await callAPI({ action: "save", sheetName: "pending", data: newDoc });
+
+            if (res.success) {
+                alert('文件已送出雲端，待業務簽核');
+                resetForm();
+                currentDocId = 'DOC-' + Date.now();
+                document.getElementById('docId').value = currentDocId;
+                await loadAllData();
+            } else {
+                alert('送出失敗：' + (res.error || '請檢查網路連線'));
+            }
+        };
+
+        document.getElementById('newDocBtn').onclick = () => {
+            resetForm();
+            currentDocId = 'DOC-' + Date.now();
+            document.getElementById('docId').value = currentDocId;
+        };
+
+        // ================================================================
+        // 列表渲染
+        // ================================================================
+        function renderDraftList() {
+            const container = document.getElementById('draftListContainer');
+            if (!draftDocs.length) { container.innerHTML =
+                '<div style="padding:20px;text-align:center;">📭 雲端尚無暫存草稿</div>'; return; }
+            container.innerHTML = draftDocs.map(doc =>
+                `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName||'未填')}</strong> - ${escapeHtml(doc.eventName||'未填')}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate||'未填'}</span></div><div><button class="btn-sm edit-draft" data-id="${doc.id}">✏️ 繼續編輯</button> <button class="btn-sm delete-draft" data-id="${doc.id}">🗑️ 刪除</button></div></div>`
+            ).join('');
+
+            document.querySelectorAll('.edit-draft').forEach(btn => btn.addEventListener('click', () => {
+                const doc = draftDocs.find(d => String(d.id) === String(btn.dataset.id));
+                if (doc) {
+                    loadFormData(doc);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }));
+
+            document.querySelectorAll('.delete-draft').forEach(btn => btn.addEventListener('click', async () => {
+                if (confirm('確定要從雲端刪除此草稿？')) {
+                    const res = await callAPI({ action: "delete", sheetName: "draft", id: btn.dataset.id });
+                    if (res.success) await loadAllData();
+                }
+            }));
+        }
+
+        function getSignLink(docId, role) { return `${window.location.href.split('?')[0]}?sign=${docId}&role=${role}`; }
+
+        function renderPendingList() {
+            const container = document.getElementById('pendingListContainer');
+            if (!pendingDocs.length) { container.innerHTML =
+                '<div style="padding:20px;text-align:center;">📭 雲端尚無簽核中文件</div>'; return; }
+            container.innerHTML = pendingDocs.map(doc => {
+                let statusText = '',
+                    linkUrl = '';
+                if (doc.status === 'op_pending') { statusText = '⏳ 待業務簽核';
+                    linkUrl = getSignLink(doc.id, 'sales'); } else if (doc.status === 'sales_pending') { statusText =
+                        '⏳ 待總經理簽核';
+                    linkUrl = getSignLink(doc.id, 'gm'); }
+                return `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate} | ${statusText}</span></div><div style="display:flex; gap:8px; flex-wrap:wrap;">${linkUrl ? `<div class="link-box">🔗 <span style="font-size:0.7rem;">${linkUrl}</span> <button class="btn-sm copy-link" data-link="${linkUrl}">複製連結</button></div>` : ''}<button class="btn-sm edit-pending" data-id="${doc.id}">✏️ 進入簽核</button></div></div>`;
+            }).join('');
+
+            document.querySelectorAll('.copy-link').forEach(btn => btn.addEventListener('click', () => { navigator
+                    .clipboard.writeText(btn.dataset.link);
+                alert('連結已複製，可直接傳送 LINE'); }));
+            document.querySelectorAll('.edit-pending').forEach(btn => btn.addEventListener('click', () => {
+                const doc = pendingDocs.find(d => String(d.id) === String(btn.dataset.id));
+                if (doc) openForSign(doc);
+            }));
+        }
+
+        // ================================================================
+        // 簽核流程核心
+        // ================================================================
+        function openForSign(doc) {
+            loadFormData(doc);
+            const existingBtn = document.getElementById('dynamicSignBtn');
+            if (existingBtn) existingBtn.remove();
+            const btn = document.createElement('button');
+            btn.id = 'dynamicSignBtn';
+            btn.className = 'btn-primary';
+            btn.style.marginLeft = 'auto';
+            btn.style.marginTop = '16px';
+            btn.style.width = '100%';
+
+            // 業務簽核（第2階段）
+            if (doc.status === 'op_pending') {
+                btn.innerText = '✅ 業務簽核完成 (送總經理)';
+                btn.onclick = async () => {
+                    if (!salesSignature) return alert('請業務先完成簽名並點選儲存簽名');
+                    doc.salesSign = salesSignature;
+                    doc.status = 'sales_pending';
+                    const res = await callAPI({ action: "save", sheetName: "pending", data: doc });
+                    if (res.success) {
+                        alert('業務簽核完成，已轉送總經理');
+                        resetForm();
+                        await loadAllData();
+                    }
+                };
+            }
+            // 總經理簽核（第3階段 - 結案歸檔）
+            else if (doc.status === 'sales_pending') {
+                btn.innerText = '✅ 總經理簽核完成 (結案歸檔)';
+                btn.onclick = async () => {
+                    if (!gmSignature) return alert('請總經理先完成簽名並點選儲存簽名');
+                    doc.gmSign = gmSignature;
+                    doc.status = 'completed';
+                    doc.archiveDate = new Date().toISOString();
+                    doc.year = doc.occurDate ? doc.occurDate.slice(0, 4) : new Date().getFullYear().toString();
+                    await callAPI({ action: "delete", sheetName: "pending", id: doc.id });
+                    const res = await callAPI({ action: "save", sheetName: "archived", data: doc });
+                    if (res.success) {
+                        alert('總經理簽核完成，文件已歸檔');
+                        resetForm();
+                        await loadAllData();
+                    }
+                };
+            } else {
+                alert('此文件已完成簽核或狀態異常');
+                return;
+            }
+
+            document.querySelector('.doc-actions').appendChild(btn);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('sign') && params.has('role')) {
+                const docId = params.get('sign');
+                const doc = pendingDocs.find(d => String(d.id) === String(docId));
+                if (doc) {
+                    openForSign(doc);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else {
+                    alert('該簽核連結已失效或文件已完成簽核');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+        }
+
+        // ================================================================
+        // 歷史歸檔
+        // ================================================================
+        function updateYearFilter() {
+            const select = document.getElementById('historyYearFilter');
+            const years = [...new Set(archivedDocs.map(d => d.year || new Date().getFullYear().toString()))];
+            select.innerHTML = '<option value="all">所有年度</option>' + years.map(y =>
+                `<option value="${y}">${y}年</option>`).join('');
+        }
+
+        function renderHistoryList() {
+            let year = document.getElementById('historyYearFilter').value;
+            let kw = document.getElementById('historySearch').value.trim().toLowerCase();
+            let filtered = archivedDocs.filter(d => (year === 'all' || String(d.year) === String(year)) && (!kw ||
+                String(d.groupName).toLowerCase().includes(kw) || String(d.eventName).toLowerCase().includes(kw)));
+
+            const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+            const container = document.getElementById('historyListContainer');
+
+            if (!paged.length) { container.innerHTML =
+                    '<div style="padding:30px;text-align:center;">📭 無符合的歸檔資料</div>';
+                document.getElementById('historyPagination').innerHTML = '';
+                return; }
+
+            container.innerHTML = paged.map(doc =>
+                `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 發生:${doc.occurDate} | 歸檔:${String(doc.archiveDate).slice(0,10)}</span></div><div style="display:flex; gap:8px;"><button class="btn-sm viewArchive" data-id="${doc.id}">📄 檢視/列印</button><button class="btn-sm delete-archive" data-id="${doc.id}" style="background:#b91c1c; color:white;">🗑️ 刪除</button></div></div>`
+            ).join('');
+
+            document.getElementById('historyPagination').innerHTML =
+                `<button class="page-btn" id="prevHistoryBtn" ${currentPage===1?'disabled':''}>◀ 上一頁</button><span>第 ${currentPage} / ${totalPages} 頁</span><button class="page-btn" id="nextHistoryBtn" ${currentPage===totalPages?'disabled':''}>下一頁 ▶</button>`;
+
+            document.getElementById('prevHistoryBtn')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--;
+                    renderHistoryList(); } });
+            document.getElementById('nextHistoryBtn')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++;
+                    renderHistoryList(); } });
+
+            document.querySelectorAll('.viewArchive').forEach(btn => btn.addEventListener('click', () => {
+                const doc = archivedDocs.find(d => String(d.id) === String(btn.dataset.id));
+                if (doc) printArchive(doc);
+            }));
+
+            document.querySelectorAll('.delete-archive').forEach(btn => btn.addEventListener('click', async () => {
+                if (confirm('確定要從雲端永久刪除這筆歸檔歷史文件？')) {
+                    const res = await callAPI({ action: "delete", sheetName: "archived", id: btn.dataset.id });
+                    if (res.success) await loadAllData();
+                }
+            }));
+        }
+
+        // ================================================================
+        // 列印功能
+        // ================================================================
+        function printArchive(doc) {
+            const win = window.open('', '_blank');
+            const opImgHtml = doc.opSign && doc.opSign !== 'null' ?
+                `<img src="${doc.opSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
+                '<span style="color:#999;">未簽署</span>';
+            const salesImgHtml = doc.salesSign && doc.salesSign !== 'null' ?
+                `<img src="${doc.salesSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
+                '<span style="color:#999;">未簽署</span>';
+            const gmImgHtml = doc.gmSign && doc.gmSign !== 'null' ?
+                `<img src="${doc.gmSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
+                '<span style="color:#999;">未簽署</span>';
+
+            win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>皇朝國際旅行社 - 客戶意見表</title><style>*{box-sizing:border-box;}body{font-family:'Noto Sans TC',sans-serif;padding:30px;line-height:1.5;}.print-wrapper{max-width:800px;margin:0 auto;}h1{text-align:center;color:#1e3c72;margin-bottom:5px;}p.sub{text-align:center;margin-top:0;color:#666;font-size:14px;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{border:1px solid #666;padding:12px;text-align:left;vertical-align:top;}th{background:#f2f2f2;width:150px;}.sign-row{display:flex;justify-content:space-between;margin-top:30px;gap:20px;}.sign-box{flex:1;border:1px solid #999;border-radius:10px;padding:15px;text-align:center;}@media print{.no-print{display:none;}}</style></head><body><div class="print-wrapper"><h1>🏨 皇朝國際旅行社</h1><p class="sub">客戶意見處理表（雲端歸檔文件）</p><table><tr><th>文件編號</th><td colspan="3">${escapeHtml(doc.id)}</td></tr><tr><th>團體名稱</th><td colspan="3">${escapeHtml(doc.groupName)}</td></tr><tr><th>事件名稱</th><td colspan="3">${escapeHtml(doc.eventName)}</td></tr><tr><th>發生日期</th><td>${escapeHtml(doc.occurDate)}</td><th>發生地點</th><td>${escapeHtml(doc.occurPlace)}</td></tr><tr><th>事發過程及處理</th><td colspan="3">${doc.processHTML || '無'}</td></tr><tr><th>建議改善事項</th><td colspan="3">${doc.improveHTML || '無'}</td></tr></table><div class="sign-row"><div class="sign-box"><h4>專案OP簽章</h4>${opImgHtml}</div><div class="sign-box"><h4>業務簽章</h4>${salesImgHtml}</div><div class="sign-box"><h4>總經理簽章</h4>${gmImgHtml}</div></div><p style="font-size:12px;color:#888;margin-top:40px;text-align:center;">文件安全碼: ${doc.id} | 歸檔日期: ${String(doc.archiveDate).slice(0,10)}</p><div class="no-print" style="text-align:center;margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px;background:#1e3c72;color:white;border:none;border-radius:5px;cursor:pointer;">🖨️ 開始列印</button></div></div></body></html>`);
+            win.document.close();
+        }
+
+        // ================================================================
+        // 事件綁定
+        // ================================================================
+        document.getElementById('searchHistoryBtn').onclick = () => { currentPage = 1;
+            renderHistoryList(); };
+        document.getElementById('refreshHistoryBtn').onclick = () => { loadAllData(); };
+        document.getElementById('historyYearFilter').onchange = () => { currentPage = 1;
+            renderHistoryList(); };
+        document.getElementById('historySearch').oninput = () => { currentPage = 1;
+            renderHistoryList(); };
+
+        // 設定新案件編號
+        currentDocId = 'DOC-' + Date.now();
+        document.getElementById('docId').value = currentDocId;
+
+        // 網頁開啟時，自動與雲端同步資料
+        window.onload = () => { loadAllData(); };
+    </script>
 </body>
 </html>

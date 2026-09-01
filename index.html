@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>皇朝國際旅行社 | 客戶意見處理簽核系統</title>
+    <title>皇朝國際旅行社 - 客戶意見處理簽核系統</title>
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <style>
         * {
@@ -81,6 +81,14 @@
             border-radius: 14px;
             padding: 10px 14px;
             font-size: 0.9rem;
+        }
+        .agency-select {
+            background: #fff3e0;
+            border: 1px solid #f5b042;
+            width: auto;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1e3c72;
         }
         .editor-wrapper {
             margin: 6px 0 4px;
@@ -252,7 +260,13 @@
 
         <div class="card" id="formCard">
             <div class="card-header">
-                <h2>🏨 皇朝國際旅行社客戶意見處理表</h2>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <h2 id="agencyTitle">🏨 皇朝國際旅行社客戶意見處理表</h2>
+                    <select id="agencySelect" class="agency-select">
+                        <option value="皇朝國際旅行社">🏨 皇朝國際旅行社</option>
+                        <option value="永欽旅行社">✈️ 永欽旅行社</option>
+                    </select>
+                </div>
                 <span class="status-badge" id="formStatusBadge">📝 編輯中 / 可暫存</span>
             </div>
             <div class="card-body">
@@ -260,9 +274,9 @@
                     <tr>
                         <th>所屬公司別</th>
                         <td colspan="3">
-                            <select id="agencySelect">
-                                <option value="皇朝國際旅行社">皇朝國際旅行社</option>
-                                <option value="永欽旅行社">永欽旅行社</option>
+                            <select id="agencySelect2" style="background: #fff3e0; border: 1px solid #f5b042; font-weight: 600;">
+                                <option value="皇朝國際旅行社">🏨 皇朝國際旅行社</option>
+                                <option value="永欽旅行社">✈️ 永欽旅行社</option>
                             </select>
                         </td>
                     </tr>
@@ -414,7 +428,24 @@
         // ================================================================
         const API_URL = 'https://script.google.com/macros/s/AKfycbwiPKWCi0Dh7jpwbDnn4K_DSAbdB12G9_O83-xQBJ0-6ZGCzObtqZQSgGS0wJf9M05gDw/exec';
 
-        // 如果尚未部署 GAS，請先完成部署步驟
+        // ================================================================
+        // 旅行社名稱對應表頭
+        // ================================================================
+        const agencyTitles = {
+            '皇朝國際旅行社': '🏨 皇朝國際旅行社客戶意見處理表',
+            '永欽旅行社': '✈️ 永欽旅行社客戶意見處理表'
+        };
+
+        // ================================================================
+        // 更新標題函式
+        // ================================================================
+        function updateAgencyTitle(agencyName) {
+            const titleElement = document.getElementById('agencyTitle');
+            if (titleElement) {
+                titleElement.textContent = agencyTitles[agencyName] || agencyTitles['皇朝國際旅行社'];
+            }
+            document.title = agencyName + ' - 客戶意見處理簽核系統';
+        }
 
         let currentDocId = null;
         let opSignature = null,
@@ -438,6 +469,21 @@
                     '`': '&#x60;' } [s];
             });
         }
+
+        // ================================================================
+        // 監聽旅行社選擇變化
+        // ================================================================
+        document.getElementById('agencySelect').addEventListener('change', function(e) {
+            const selectedAgency = e.target.value;
+            document.getElementById('agencySelect2').value = selectedAgency;
+            updateAgencyTitle(selectedAgency);
+        });
+
+        document.getElementById('agencySelect2').addEventListener('change', function(e) {
+            const selectedAgency = e.target.value;
+            document.getElementById('agencySelect').value = selectedAgency;
+            updateAgencyTitle(selectedAgency);
+        });
 
         // ================================================================
         // CKEditor 初始化
@@ -631,9 +677,10 @@
         }
 
         function collectFormData(status = 'draft') {
+            const agency = document.getElementById('agencySelect').value;
             return {
                 id: String(currentDocId || ('DOC-' + Date.now())),
-                agency: document.getElementById('agencySelect').value,
+                agency: agency,
                 groupName: document.getElementById('groupName').value,
                 eventName: document.getElementById('eventName').value,
                 occurDate: document.getElementById('occurDate').value,
@@ -657,7 +704,11 @@
             document.getElementById('eventName').value = doc.eventName || '';
             document.getElementById('occurDate').value = doc.occurDate || '';
             document.getElementById('occurPlace').value = doc.occurPlace || '';
-            document.getElementById('agencySelect').value = doc.agency || '皇朝國際旅行社';
+            if (doc.agency) {
+                document.getElementById('agencySelect').value = doc.agency;
+                document.getElementById('agencySelect2').value = doc.agency;
+                updateAgencyTitle(doc.agency);
+            }
 
             if (processEditor) { processEditor.setData(doc.processHTML || ''); }
             if (improveEditor) { improveEditor.setData(doc.improveHTML || ''); }
@@ -742,10 +793,10 @@
         function renderDraftList() {
             const container = document.getElementById('draftListContainer');
             if (!draftDocs.length) { container.innerHTML =
-                '<div style="padding:20px;text-align:center;">📭 雲端尚無暫存草稿</div>'; return; }
+                    '<div style="padding:20px;text-align:center;">📭 雲端尚無暫存草稿</div>'; return; }
             container.innerHTML = draftDocs.map(doc =>
-                `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName||'未填')}</strong> - ${escapeHtml(doc.eventName||'未填')}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate||'未填'}</span></div><div><button class="btn-sm edit-draft" data-id="${doc.id}">✏️ 繼續編輯</button> <button class="btn-sm delete-draft" data-id="${doc.id}">🗑️ 刪除</button></div></div>`
-            ).join('');
+                    `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName||'未填')}</strong> - ${escapeHtml(doc.eventName||'未填')}<br><span style="font-size:0.7rem;">🏢 ${escapeHtml(doc.agency||'皇朝國際旅行社')} | 📅 ${doc.occurDate||'未填'}</span></div><div><button class="btn-sm edit-draft" data-id="${doc.id}">✏️ 繼續編輯</button> <button class="btn-sm delete-draft" data-id="${doc.id}">🗑️ 刪除</button></div></div>`
+                ).join('');
 
             document.querySelectorAll('.edit-draft').forEach(btn => btn.addEventListener('click', () => {
                 const doc = draftDocs.find(d => String(d.id) === String(btn.dataset.id));
@@ -768,183 +819,4 @@
         function renderPendingList() {
             const container = document.getElementById('pendingListContainer');
             if (!pendingDocs.length) { container.innerHTML =
-                '<div style="padding:20px;text-align:center;">📭 雲端尚無簽核中文件</div>'; return; }
-            container.innerHTML = pendingDocs.map(doc => {
-                let statusText = '',
-                    linkUrl = '';
-                if (doc.status === 'op_pending') { statusText = '⏳ 待業務簽核';
-                    linkUrl = getSignLink(doc.id, 'sales'); } else if (doc.status === 'sales_pending') { statusText =
-                        '⏳ 待總經理簽核';
-                    linkUrl = getSignLink(doc.id, 'gm'); }
-                return `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 ${doc.occurDate} | ${statusText}</span></div><div style="display:flex; gap:8px; flex-wrap:wrap;">${linkUrl ? `<div class="link-box">🔗 <span style="font-size:0.7rem;">${linkUrl}</span> <button class="btn-sm copy-link" data-link="${linkUrl}">複製連結</button></div>` : ''}<button class="btn-sm edit-pending" data-id="${doc.id}">✏️ 進入簽核</button></div></div>`;
-            }).join('');
-
-            document.querySelectorAll('.copy-link').forEach(btn => btn.addEventListener('click', () => { navigator
-                    .clipboard.writeText(btn.dataset.link);
-                alert('連結已複製，可直接傳送 LINE'); }));
-            document.querySelectorAll('.edit-pending').forEach(btn => btn.addEventListener('click', () => {
-                const doc = pendingDocs.find(d => String(d.id) === String(btn.dataset.id));
-                if (doc) openForSign(doc);
-            }));
-        }
-
-        // ================================================================
-        // 簽核流程核心
-        // ================================================================
-        function openForSign(doc) {
-            loadFormData(doc);
-            const existingBtn = document.getElementById('dynamicSignBtn');
-            if (existingBtn) existingBtn.remove();
-            const btn = document.createElement('button');
-            btn.id = 'dynamicSignBtn';
-            btn.className = 'btn-primary';
-            btn.style.marginLeft = 'auto';
-            btn.style.marginTop = '16px';
-            btn.style.width = '100%';
-
-            // 業務簽核（第2階段）
-            if (doc.status === 'op_pending') {
-                btn.innerText = '✅ 業務簽核完成 (送總經理)';
-                btn.onclick = async () => {
-                    if (!salesSignature) return alert('請業務先完成簽名並點選儲存簽名');
-                    doc.salesSign = salesSignature;
-                    doc.status = 'sales_pending';
-                    const res = await callAPI({ action: "save", sheetName: "pending", data: doc });
-                    if (res.success) {
-                        alert('業務簽核完成，已轉送總經理');
-                        resetForm();
-                        await loadAllData();
-                    }
-                };
-            }
-            // 總經理簽核（第3階段 - 結案歸檔）
-            else if (doc.status === 'sales_pending') {
-                btn.innerText = '✅ 總經理簽核完成 (結案歸檔)';
-                btn.onclick = async () => {
-                    if (!gmSignature) return alert('請總經理先完成簽名並點選儲存簽名');
-                    doc.gmSign = gmSignature;
-                    doc.status = 'completed';
-                    doc.archiveDate = new Date().toISOString();
-                    doc.year = doc.occurDate ? doc.occurDate.slice(0, 4) : new Date().getFullYear().toString();
-                    await callAPI({ action: "delete", sheetName: "pending", id: doc.id });
-                    const res = await callAPI({ action: "save", sheetName: "archived", data: doc });
-                    if (res.success) {
-                        alert('總經理簽核完成，文件已歸檔');
-                        resetForm();
-                        await loadAllData();
-                    }
-                };
-            } else {
-                alert('此文件已完成簽核或狀態異常');
-                return;
-            }
-
-            document.querySelector('.doc-actions').appendChild(btn);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function handleUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('sign') && params.has('role')) {
-                const docId = params.get('sign');
-                const doc = pendingDocs.find(d => String(d.id) === String(docId));
-                if (doc) {
-                    openForSign(doc);
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                } else {
-                    alert('該簽核連結已失效或文件已完成簽核');
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
-            }
-        }
-
-        // ================================================================
-        // 歷史歸檔
-        // ================================================================
-        function updateYearFilter() {
-            const select = document.getElementById('historyYearFilter');
-            const years = [...new Set(archivedDocs.map(d => d.year || new Date().getFullYear().toString()))];
-            select.innerHTML = '<option value="all">所有年度</option>' + years.map(y =>
-                `<option value="${y}">${y}年</option>`).join('');
-        }
-
-        function renderHistoryList() {
-            let year = document.getElementById('historyYearFilter').value;
-            let kw = document.getElementById('historySearch').value.trim().toLowerCase();
-            let filtered = archivedDocs.filter(d => (year === 'all' || String(d.year) === String(year)) && (!kw ||
-                String(d.groupName).toLowerCase().includes(kw) || String(d.eventName).toLowerCase().includes(kw)));
-
-            const totalPages = Math.ceil(filtered.length / PAGE_SIZE) || 1;
-            if (currentPage > totalPages) currentPage = totalPages;
-            const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-            const container = document.getElementById('historyListContainer');
-
-            if (!paged.length) { container.innerHTML =
-                    '<div style="padding:30px;text-align:center;">📭 無符合的歸檔資料</div>';
-                document.getElementById('historyPagination').innerHTML = '';
-                return; }
-
-            container.innerHTML = paged.map(doc =>
-                `<div class="doc-item"><div><strong>${escapeHtml(doc.groupName)}</strong> - ${escapeHtml(doc.eventName)}<br><span style="font-size:0.7rem;">📅 發生:${doc.occurDate} | 歸檔:${String(doc.archiveDate).slice(0,10)}</span></div><div style="display:flex; gap:8px;"><button class="btn-sm viewArchive" data-id="${doc.id}">📄 檢視/列印</button><button class="btn-sm delete-archive" data-id="${doc.id}" style="background:#b91c1c; color:white;">🗑️ 刪除</button></div></div>`
-            ).join('');
-
-            document.getElementById('historyPagination').innerHTML =
-                `<button class="page-btn" id="prevHistoryBtn" ${currentPage===1?'disabled':''}>◀ 上一頁</button><span>第 ${currentPage} / ${totalPages} 頁</span><button class="page-btn" id="nextHistoryBtn" ${currentPage===totalPages?'disabled':''}>下一頁 ▶</button>`;
-
-            document.getElementById('prevHistoryBtn')?.addEventListener('click', () => { if (currentPage > 1) { currentPage--;
-                    renderHistoryList(); } });
-            document.getElementById('nextHistoryBtn')?.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++;
-                    renderHistoryList(); } });
-
-            document.querySelectorAll('.viewArchive').forEach(btn => btn.addEventListener('click', () => {
-                const doc = archivedDocs.find(d => String(d.id) === String(btn.dataset.id));
-                if (doc) printArchive(doc);
-            }));
-
-            document.querySelectorAll('.delete-archive').forEach(btn => btn.addEventListener('click', async () => {
-                if (confirm('確定要從雲端永久刪除這筆歸檔歷史文件？')) {
-                    const res = await callAPI({ action: "delete", sheetName: "archived", id: btn.dataset.id });
-                    if (res.success) await loadAllData();
-                }
-            }));
-        }
-
-        // ================================================================
-        // 列印功能
-        // ================================================================
-        function printArchive(doc) {
-            const win = window.open('', '_blank');
-            const opImgHtml = doc.opSign && doc.opSign !== 'null' ?
-                `<img src="${doc.opSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
-                '<span style="color:#999;">未簽署</span>';
-            const salesImgHtml = doc.salesSign && doc.salesSign !== 'null' ?
-                `<img src="${doc.salesSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
-                '<span style="color:#999;">未簽署</span>';
-            const gmImgHtml = doc.gmSign && doc.gmSign !== 'null' ?
-                `<img src="${doc.gmSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
-                '<span style="color:#999;">未簽署</span>';
-
-            win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>皇朝國際旅行社 - 客戶意見表</title><style>*{box-sizing:border-box;}body{font-family:'Noto Sans TC',sans-serif;padding:30px;line-height:1.5;}.print-wrapper{max-width:800px;margin:0 auto;}h1{text-align:center;color:#1e3c72;margin-bottom:5px;}p.sub{text-align:center;margin-top:0;color:#666;font-size:14px;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{border:1px solid #666;padding:12px;text-align:left;vertical-align:top;}th{background:#f2f2f2;width:150px;}.sign-row{display:flex;justify-content:space-between;margin-top:30px;gap:20px;}.sign-box{flex:1;border:1px solid #999;border-radius:10px;padding:15px;text-align:center;}@media print{.no-print{display:none;}}</style></head><body><div class="print-wrapper"><h1>🏨 皇朝國際旅行社</h1><p class="sub">客戶意見處理表（雲端歸檔文件）</p><table><tr><th>文件編號</th><td colspan="3">${escapeHtml(doc.id)}</td></tr><tr><th>團體名稱</th><td colspan="3">${escapeHtml(doc.groupName)}</td></tr><tr><th>事件名稱</th><td colspan="3">${escapeHtml(doc.eventName)}</td></tr><tr><th>發生日期</th><td>${escapeHtml(doc.occurDate)}</td><th>發生地點</th><td>${escapeHtml(doc.occurPlace)}</td></tr><tr><th>事發過程及處理</th><td colspan="3">${doc.processHTML || '無'}</td></tr><tr><th>建議改善事項</th><td colspan="3">${doc.improveHTML || '無'}</td></tr></table><div class="sign-row"><div class="sign-box"><h4>專案OP簽章</h4>${opImgHtml}</div><div class="sign-box"><h4>業務簽章</h4>${salesImgHtml}</div><div class="sign-box"><h4>總經理簽章</h4>${gmImgHtml}</div></div><p style="font-size:12px;color:#888;margin-top:40px;text-align:center;">文件安全碼: ${doc.id} | 歸檔日期: ${String(doc.archiveDate).slice(0,10)}</p><div class="no-print" style="text-align:center;margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px;background:#1e3c72;color:white;border:none;border-radius:5px;cursor:pointer;">🖨️ 開始列印</button></div></div></body></html>`);
-            win.document.close();
-        }
-
-        // ================================================================
-        // 事件綁定
-        // ================================================================
-        document.getElementById('searchHistoryBtn').onclick = () => { currentPage = 1;
-            renderHistoryList(); };
-        document.getElementById('refreshHistoryBtn').onclick = () => { loadAllData(); };
-        document.getElementById('historyYearFilter').onchange = () => { currentPage = 1;
-            renderHistoryList(); };
-        document.getElementById('historySearch').oninput = () => { currentPage = 1;
-            renderHistoryList(); };
-
-        // 設定新案件編號
-        currentDocId = 'DOC-' + Date.now();
-        document.getElementById('docId').value = currentDocId;
-
-        // 網頁開啟時，自動與雲端同步資料
-        window.onload = () => { loadAllData(); };
-    </script>
-</body>
-</html>
+                    '<div style="padding:20px

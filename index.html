@@ -402,7 +402,7 @@
         // ================================================================
         // 重要：請將下方網址替換為您部署的 Google Apps Script 網址
         // ================================================================
-        const API_URL = 'https://script.google.com/macros/s/YOUR_GAS_DEPLOYMENT_URL/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwiPKWCi0Dh7jpwbDnn4K_DSAbdB12G9_O83-xQBJ0-6ZGCzObtqZQSgGS0wJf9M05gDw/exec';
 
         let currentDocId = null;
         let opSignature = null,
@@ -897,13 +897,13 @@
         }
 
         // ================================================================
-        // 列印功能（已移除旅行社名稱）
+        // 列印功能（已完全移除旅行社名稱）
         // ================================================================
         function printArchive(doc) {
             const win = window.open('', '_blank');
 
-            // 固定標題，不顯示旅行社名稱
-            const titleText = '📋 客戶意見處理表';
+            // 固定標題，完全不顯示任何旅行社名稱
+            const titleText = '客戶意見處理表';
 
             const opImgHtml = doc.opSign && doc.opSign !== 'null' ?
                 `<img src="${doc.opSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
@@ -915,7 +915,49 @@
                 `<img src="${doc.gmSign}" style="max-height:60px; max-width:160px; border:1px solid #ddd; border-radius:8px; padding:4px; background:white;">` :
                 '<span style="color:#999;">未簽署</span>';
 
-            win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>客戶意見處理表</title><style>*{box-sizing:border-box;}body{font-family:'Noto Sans TC',sans-serif;padding:30px;line-height:1.5;}.print-wrapper{max-width:800px;margin:0 auto;}h1{text-align:center;color:#1e3c72;margin-bottom:5px;}p.sub{text-align:center;margin-top:0;color:#666;font-size:14px;}table{width:100%;border-collapse:collapse;margin:20px 0;}th,td{border:1px solid #666;padding:12px;text-align:left;vertical-align:top;}th{background:#f2f2f2;width:150px;}.sign-row{display:flex;justify-content:space-between;margin-top:30px;gap:20px;}.sign-box{flex:1;border:1px solid #999;border-radius:10px;padding:15px;text-align:center;}@media print{.no-print{display:none;}}</style></head><body><div class="print-wrapper"><h1>${titleText}</h1><p class="sub">歸檔文件</p><table><tr><th>文件編號</th><td colspan="3">${escapeHtml(doc.id)}</td></tr><tr><th>團體名稱</th><td colspan="3">${escapeHtml(doc.groupName)}</td></tr><tr><th>事件名稱</th><td colspan="3">${escapeHtml(doc.eventName)}</td></tr><tr><th>發生日期</th><td>${escapeHtml(doc.occurDate)}</td><th>發生地點</th><td>${escapeHtml(doc.occurPlace)}</td></tr><tr><th>事發過程及處理</th><td colspan="3">${doc.processHTML || '無'}</td></tr><tr><th>建議改善事項</th><td colspan="3">${doc.improveHTML || '無'}</td></tr></table><div class="sign-row"><div class="sign-box"><h4>專案OP簽章</h4>${opImgHtml}</div><div class="sign-box"><h4>業務簽章</h4>${salesImgHtml}</div><div class="sign-box"><h4>總經理簽章</h4>${gmImgHtml}</div></div><p style="font-size:12px;color:#888;margin-top:40px;text-align:center;">文件安全碼: ${doc.id} | 歸檔日期: ${String(doc.archiveDate).slice(0,10)}</p><div class="no-print" style="text-align:center;margin-top:30px;"><button onclick="window.print()" style="padding:10px 20px;background:#1e3c72;color:white;border:none;border-radius:5px;cursor:pointer;">🖨️ 開始列印</button></div></div></body></html>`);
+            win.document.write(`<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>客戶意見處理表</title>
+            <style>
+                *{box-sizing:border-box;}
+                body{font-family:'Noto Sans TC',sans-serif;padding:30px;line-height:1.5;}
+                .print-wrapper{max-width:800px;margin:0 auto;}
+                h1{text-align:center;color:#1e3c72;margin-bottom:5px;}
+                p.sub{text-align:center;margin-top:0;color:#666;font-size:14px;}
+                table{width:100%;border-collapse:collapse;margin:20px 0;}
+                th,td{border:1px solid #666;padding:12px;text-align:left;vertical-align:top;}
+                th{background:#f2f2f2;width:150px;}
+                .sign-row{display:flex;justify-content:space-between;margin-top:30px;gap:20px;}
+                .sign-box{flex:1;border:1px solid #999;border-radius:10px;padding:15px;text-align:center;}
+                @media print{.no-print{display:none;}}
+            </style>
+        </head>
+        <body>
+            <div class="print-wrapper">
+                <h1>${titleText}</h1>
+                <p class="sub">歸檔文件</p>
+                <table>
+                    <tr><th>文件編號</th><td colspan="3">${escapeHtml(doc.id)}</td></tr>
+                    <tr><th>團體名稱</th><td colspan="3">${escapeHtml(doc.groupName)}</td></tr>
+                    <tr><th>事件名稱</th><td colspan="3">${escapeHtml(doc.eventName)}</td></tr>
+                    <tr><th>發生日期</th><td>${escapeHtml(doc.occurDate)}</td><th>發生地點</th><td>${escapeHtml(doc.occurPlace)}</td></tr>
+                    <tr><th>事發過程及處理</th><td colspan="3">${doc.processHTML || '無'}</td></tr>
+                    <tr><th>建議改善事項</th><td colspan="3">${doc.improveHTML || '無'}</td></tr>
+                </table>
+                <div class="sign-row">
+                    <div class="sign-box"><h4>專案OP簽章</h4>${opImgHtml}</div>
+                    <div class="sign-box"><h4>業務簽章</h4>${salesImgHtml}</div>
+                    <div class="sign-box"><h4>總經理簽章</h4>${gmImgHtml}</div>
+                </div>
+                <p style="font-size:12px;color:#888;margin-top:40px;text-align:center;">文件安全碼: ${doc.id} | 歸檔日期: ${String(doc.archiveDate).slice(0,10)}</p>
+                <div class="no-print" style="text-align:center;margin-top:30px;">
+                    <button onclick="window.print()" style="padding:10px 20px;background:#1e3c72;color:white;border:none;border-radius:5px;cursor:pointer;">🖨️ 開始列印</button>
+                </div>
+            </div>
+        </body>
+        </html>`);
             win.document.close();
         }
 
